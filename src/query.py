@@ -11,7 +11,7 @@ def load_vectorstore(persist_directory: str = "./chroma_store") -> Chroma:
 def query_manual(question: str, persist_directory: str = "./chroma_store") -> str:
     vectorstore = load_vectorstore(persist_directory)
     retriever = vectorstore.as_retriever()
-    llm = ChatOpenAI(temperature=0.1, max_tokens=500, model=MODEL)
+    llm = ChatOpenAI(temperature=0.1, max_tokens=250, model=MODEL)
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
         retriever=retriever
