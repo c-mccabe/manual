@@ -15,6 +15,6 @@ class QueryRequest(BaseModel):
 def query_api(req: QueryRequest):
     try:
         response = query_manual(req.query)
-        return {"answer": response}
+        return {"answer": response["answer"]}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
