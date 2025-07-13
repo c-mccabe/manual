@@ -4,3 +4,4 @@ chroma_store/
 .python-version
 data
 *.pyc
+notebooks/test/
