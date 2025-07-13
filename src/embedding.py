@@ -4,14 +4,14 @@ from typing import List
 from tqdm import tqdm
 import tiktoken
 
-PRICE_PER_MILLION = 0.02  # $0.02 per 1M tokens for text-embedding-3-small
+PRICE_PER_MILLION = 0.13  # $0.13 per 1M tokens for text-embedding-3-large
 
 def count_tokens(text: str, model: str = "text-embedding-3-small") -> int:
     encoding = tiktoken.encoding_for_model(model)
     return len(encoding.encode(text))
 
 def embed_chunks(chunks: List[str], persist_directory: str = "./chroma_store") -> Chroma:
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 
     print("📏 Counting tokens...")
     total_tokens = sum(count_tokens(chunk) for chunk in chunks)
