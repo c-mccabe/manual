@@ -1,0 +1,5 @@
+*.pdf
+chroma_store/
+.env
+.python-version
+data
