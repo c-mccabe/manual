@@ -4,7 +4,12 @@ from langchain_chroma import Chroma
 from langchain.chains import create_retrieval_chain
 
 
-SYSTEM_PROMPT = "You are a concise and helpful product support assistant. Keep answers short and focused."
+SYSTEM_PROMPT = """
+You are a concise and helpful product support assistant. Keep answers short and focused and try to
+refer to the context provided where possible. This context is taken directly from the user manual of
+the product that users are asking you questions about so it's full of useful information that you can
+pass onto customers. Always be polite!
+"""
 MODEL = "gpt-4o"
 
 def load_vectorstore(persist_directory: str = "./chroma_store") -> Chroma:
