@@ -5,3 +5,4 @@ chroma_store/
 data
 *.pyc
 notebooks/test/
+*.zip
