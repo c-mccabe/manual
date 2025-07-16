@@ -21,7 +21,9 @@ class QueryRequest(BaseModel):
 def query_api(req: QueryRequest):
     try:
         response = query_manual(req.query, PERSIST_DIRECTORY)
-        return {"answer": response["answer"]}
+
+        response_with_context = response["answer"] + f"/n Context snippet: {response['sources'][0][0:100]}"
+        return {"answer": response_with_context}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -42,3 +44,15 @@ async def upload_zip(file: UploadFile = File(...)):
         zip_ref.extractall(extract_path)
 
     return {"status": "success", "extracted_to": extract_path}
+
+
+@app.get("/debug-chroma/")
+def debug_chroma_store():
+    path = PERSIST_DIRECTORY
+    if not os.path.exists(path):
+        return {"error": "Path does not exist", "path": path}
+    return {
+        "exists": True,
+        "files": os.listdir(path),
+        "path": path
+    }

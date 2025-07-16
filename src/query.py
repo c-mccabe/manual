@@ -12,6 +12,7 @@ def load_vectorstore(persist_directory: str = "./chroma_store") -> Chroma:
     return Chroma(persist_directory=persist_directory, embedding_function=embeddings)
 
 def query_manual(question: str, persist_directory: str = "./chroma_store") -> dict:
+    print(f"Persist_directory: {persist_directory}")
     # Load retriever
     vectorstore = load_vectorstore(persist_directory)
     retriever = vectorstore.as_retriever()
