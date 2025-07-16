@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-QUERY = ("My camera's blurry, how can I fix that?")
+QUERY = ("I'm new to Huawei phones generally. Can you talk me through some of the new cool features in this one?")
 
 if __name__ == "__main__":
     response = query_manual(QUERY, persist_directory="./chroma_store")
