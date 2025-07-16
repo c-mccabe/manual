@@ -3,6 +3,8 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_chroma import Chroma
 from langchain.chains import create_retrieval_chain
 
+import time
+
 
 SYSTEM_PROMPT = """
 You are a concise and helpful product support assistant. Keep answers short and focused and try to
@@ -18,9 +20,12 @@ def load_vectorstore(persist_directory: str = "./chroma_store") -> Chroma:
 
 def query_manual(question: str, persist_directory: str = "./chroma_store") -> dict:
     print(f"Persist_directory: {persist_directory}")
+    t_load = time.time()
     # Load retriever
     vectorstore = load_vectorstore(persist_directory)
     retriever = vectorstore.as_retriever()
+    t_load = time.time()
+    print(f"Load vectorstore: {time.time() - t_load:.2f}s")
 
     # Prompt
     prompt = ChatPromptTemplate.from_messages([
@@ -42,9 +47,14 @@ def query_manual(question: str, persist_directory: str = "./chroma_store") -> di
     retrieval_chain = create_retrieval_chain(retriever, chain)
 
     # Run with input dict (note: question is key)
+    t_chain = time.time()
     result = retrieval_chain.invoke({"input": question})
+    print(f"LLM time: {time.time() - t_chain:.2f}s")
 
+    t_retrieve = time.time()
     retrieved_docs = retriever.invoke(question)
+    print(f"Retriever time: {time.time() - t_retrieve:.2f}s")
+
     retrieved_texts = [doc.page_content for doc in retrieved_docs]
 
     return {
