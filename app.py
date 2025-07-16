@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-
+PERSIST_DIRECTORY = "/mnt/data/chroma_store"
 app = FastAPI()
 
 class QueryRequest(BaseModel):
@@ -14,7 +14,7 @@ class QueryRequest(BaseModel):
 @app.post("/query")
 def query_api(req: QueryRequest):
     try:
-        response = query_manual(req.query)
+        response = query_manual(req.query, PERSIST_DIRECTORY)
         return {"answer": response["answer"]}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
