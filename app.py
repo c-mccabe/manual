@@ -27,7 +27,7 @@ def query_api(req: QueryRequest):
                 f"\n\n**Context snippet:**\n{response['sources'][0]}"
         )
 
-        return {"answer": response_with_context}
+        return {"answer": response["answer"]}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
