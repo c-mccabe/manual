@@ -22,7 +22,11 @@ def query_api(req: QueryRequest):
     try:
         response = query_manual(req.query, PERSIST_DIRECTORY)
 
-        response_with_context = response["answer"] + f"/n Context snippet: {response['sources'][0][0:100]}"
+        response_with_context = (
+                response["answer"] +
+                f"\n\n**Context snippet:**\n{response['sources'][0]}"
+        )
+
         return {"answer": response_with_context}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
